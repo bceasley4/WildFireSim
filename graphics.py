@@ -26,7 +26,6 @@ class Graphics:
         self.info.pack(side=TOP)
         self.weather_forecast = None
         self.fireButton = None
-        self.updateButton = None
         self.hours = 0
 
     def start(self, wf):
@@ -38,8 +37,6 @@ class Graphics:
         self.fireButton.pack(side=TOP)
         endButton = Button(frame, text="End Simulation", command=self.end)
         endButton.pack(side=BOTTOM)
-        self.updateButton = Button(frame, text="")
-        self.updateButton.pack(side=BOTTOM)
         self.tk.mainloop()
 
     def plotElevationData(self):
@@ -52,8 +49,8 @@ class Graphics:
         self.canvas.get_tk_widget().pack()
 
     def changeBtnTxt(self):
-        self.updateButton["text"] = "Click to calculate fire growth"
-        self.updateButton["command"] = self.growFire
+        self.fireButton["text"] = "Click to calculate fire growth"
+        self.fireButton["command"] = self.growFire
         self.tk.mainloop()
 
     def growFire(self):
@@ -63,11 +60,11 @@ class Graphics:
                 self.growFireFront(hourly_weather)
                 break
             self.hours+=1
-            self.updateButton["command"] = self.growFire
+            self.fireButton["command"] = self.growFire
             self.tk.mainloop()
         except:
             self.updateFire()
-            self.updateButton.destroy()
+            self.fireButton.destroy()
             self.timeTracker.configure(text="The simulation is over!")
             self.tk.mainloop()
 
@@ -111,8 +108,6 @@ class Graphics:
                 status.fire.burn()
                 self.activeFire[point[0]] = status
         self.startTime = time.time()
-        #self.fireButton["text"] = ""
-        self.fireButton.destroy()
         self.activateHover()
         self.canvas.get_tk_widget().update_idletasks()
         self.canvas.draw()

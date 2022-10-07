@@ -25,7 +25,8 @@ def printProgressBar (iteration, total, fill='█', printEnd="\r"):
 ''' retrieves weather data from weather module and handles all errors '''
 def getWeatherData(latStr, lonStr):
     # get environment variable
-    apikey = os.getenv('WEATHER_ACCESS')
+    #apikey = os.getenv('WEATHER_ACCESS')
+    apikey = "bTwTZqRIM3x7mrUWKUr3lR1uVCPupCor"
     if apikey is None:
         printError("must set 'WEATHER_ACCESS' environment variable with API access key")
         sys.exit(1)
@@ -70,7 +71,6 @@ def getMapData(mapFile):
         mapPoints.append(line)
         printProgressBar(i_y + 1, y)
 
-    # TODO: temporarily returns elevation_data (for matplot)
     return np.asarray(mapPoints), dX, dY, elevation_data
 
 ''' formats the fire starting location and its size '''
@@ -95,7 +95,7 @@ def main():
         sys.exit(1)
     xPercent, yPercent, radius = getFireStart(sys.argv[4], sys.argv[5], sys.argv[6])
     weather_forecast = getWeatherData(sys.argv[2], sys.argv[3])
-    mapPoints, dX, dY, elevation_data = getMapData(sys.argv[1]) # TODO: remove elevation_data
+    mapPoints, dX, dY, elevation_data = getMapData(sys.argv[1]) 
 
     fireSim = sim.Simulator(mapPoints, dX, dY)
     fireSim.startFire(xPercent, yPercent, radius)
